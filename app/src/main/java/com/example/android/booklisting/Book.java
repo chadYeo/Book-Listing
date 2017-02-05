@@ -14,18 +14,18 @@ public class Book {
         mUrl = url;
     }
 
-    public String getmTitle() {
+    public String getTitle() {
         return mTitle;
     }
 
-    public String getmAuthor() {
+    public String getAuthor() {
         return mAuthor;
     }
 
-    public String getmSummary() {
+    public String getSummary() {
         return mSummary;
     }
-    public String getmUrl() {
+    public String getUrl() {
         return mUrl;
     }
 }
