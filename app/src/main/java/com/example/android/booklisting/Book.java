@@ -7,9 +7,9 @@ public class Book {
     private String mSummary;
     private String mUrl;
 
-    public Book(String title, String author, String summary, String url) {
+    public Book(String title, String authors, String summary, String url) {
         mTitle= title;
-        mAuthor = author;
+        mAuthor = authors;
         mSummary = summary;
         mUrl = url;
     }
