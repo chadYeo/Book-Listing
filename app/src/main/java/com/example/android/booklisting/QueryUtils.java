@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -97,21 +98,30 @@ public class QueryUtils {
 
         try {
             JSONObject jsonObj = new JSONObject(bookJSON);
-            JSONArray items = jsonObj.getJSONArray("items");
+            JSONArray bookArray = jsonObj.getJSONArray("items");
 
-            for (int i=0; i<items.length(); i++) {
-                JSONObject currentBook = items.getJSONObject(i);
+            for (int i=0; i<bookArray.length(); i++) {
+                JSONObject currentBook = bookArray.getJSONObject(i);
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
                 String title = volumeInfo. getString("title");
 
-                String authors =volumeInfo.getString("authors");
+                ArrayList<String> authorList = new ArrayList<String>();
+                JSONArray authorJsonArray = volumeInfo.optJSONArray("authors");
+                if (authorJsonArray != null) {
+                    for (int j=0; j<authorJsonArray.length(); j++) {
+                        authorList.add(authorJsonArray.get(j).toString());
+                    }
+                }
+                String[] authors = authorList.toArray(new String[authorList.size()]);
 
-                String description = volumeInfo.getString("description");
+                String description = volumeInfo.optString("description");
 
                 String infoLink = volumeInfo.getString("infoLink");
 
                 Book book = new Book(title, authors, description, infoLink);
+
+                books.add(book);
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing earthquake JSON result", e);

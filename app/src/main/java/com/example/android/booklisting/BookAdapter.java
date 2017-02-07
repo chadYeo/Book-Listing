@@ -39,8 +39,8 @@ public class BookAdapter extends ArrayAdapter<Book> {
         viewHolder.mTitleTextView.setText(title);
 
         viewHolder.mAuthorTextView = (TextView) convertView.findViewById(R.id.author_textView);
-        String author = currentPosition.getAuthor();
-        viewHolder.mAuthorTextView.setText(author);
+        String[] author = currentPosition.getAuthor();
+        viewHolder.mAuthorTextView.setText(currentPosition.generateStringOfAuthor());
 
         viewHolder.mSummaryTextView = (TextView) convertView.findViewById(R.id.summary_textView);
         String summary = currentPosition.getSummary();
