@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Book Listing</string>
+    <string name="search_button">Search</string>
+    <string name="search_hint">Type keyword</string>
+    <string name="empty_searchView">Please search your keyword</string>
+    <string name="enter_search_keyword">Please enter keywords to search for books.</string>
+    <string name="no_result">No Result Found</string>
 </resources>
