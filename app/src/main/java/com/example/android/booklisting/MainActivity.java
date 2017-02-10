@@ -2,6 +2,8 @@ package com.example.android.booklisting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEditText;
     private Button mSearchButton;
     private TextView mEmptyTextView;
+    private Context mContext;
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -64,12 +67,16 @@ public class MainActivity extends AppCompatActivity {
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookAsyncTask task = new BookAsyncTask();
-                Log.i(LOG_TAG, "Search Button is clicked");
-                task.execute();
+                if (isNetworkAvailable()) {
+                    BookAsyncTask task = new BookAsyncTask();
+                    Log.i(LOG_TAG, "Search Button is clicked");
+                    task.execute();
 
-                InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                } else {
+                    Toast.makeText(getApplicationContext(), "There's no internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -88,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();}
 
     /**
      * AsyncTask
