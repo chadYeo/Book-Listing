@@ -62,6 +62,23 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
 
+        // Book ListView and setting Adapter below:
+        mBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Book currentBook = mAdapter.getItem(position);
+
+                Uri bookUri = Uri.parse(currentBook.getUrl());
+
+                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
+
+                startActivity(websiteIntent);
+            }
+        });
+
+    }
+
+    public void onSearchButtonClicked(View v) {
         // Search button method is applied below upon click:
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,21 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Book ListView and setting Adapter below:
-        mBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Book currentBook = mAdapter.getItem(position);
-
-                Uri bookUri = Uri.parse(currentBook.getUrl());
-
-                Intent websiteIntent = new Intent(Intent.ACTION_VIEW, bookUri);
-
-                startActivity(websiteIntent);
-            }
-        });
-
     }
 
     private Boolean isNetworkAvailable() {
