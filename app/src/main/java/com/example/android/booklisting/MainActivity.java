@@ -35,14 +35,17 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mBookListView;
+    @BindView(R.id.listView) ListView mBookListView;
+    @BindView(R.id.editText) TextView mEditText;
+    @BindView(R.id.searchButton) Button mSearchButton;
+    @BindView(R.id.empty_textView) TextView mEmptyTextView;
+
     private BookAdapter mAdapter;
-    private EditText mEditText;
-    private Button mSearchButton;
-    private TextView mEmptyTextView;
-    private Context mContext;
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -52,10 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mEditText = (EditText) findViewById(R.id.editText);
-        mBookListView = (ListView) findViewById(R.id.listView);
-        mEmptyTextView = (TextView) findViewById(R.id.empty_textView);
+        ButterKnife.bind(this);
 
         // To force the keyboard to appear when app is opened
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new BookAdapter(this, new ArrayList<Book>());
 
         // Search button method is applied below upon click:
-        mSearchButton = (Button) findViewById(R.id.searchButton);
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
